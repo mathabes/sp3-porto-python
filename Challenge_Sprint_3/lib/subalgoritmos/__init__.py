@@ -1,11 +1,11 @@
-def linha(tam=61) -> str:
+def linha(tam) -> str:
     return '=' * tam
 
 
 def cabecalho(txt) -> None:
-    print(linha())
+    print(linha(61))
     print(txt.center(61))
-    print(linha())
+    print(linha(61))
 
 
 def menu(titulo, execucoes):
@@ -14,7 +14,7 @@ def menu(titulo, execucoes):
     for i in execucoes:
         print(f'{c} - {i}')
         c += 1
-    print(linha())
+    print(linha(61))
 
 
 def trat_erro(msg):
@@ -24,6 +24,11 @@ def trat_erro(msg):
             n = int(input(msg))
             break
         except ValueError:
-            print("\033[031m--> ERRO: Por favor, digite um número.\033[m")
+            print("\033[031m--> ERRO: Por favor, digite um número.\033[m\n")
             continue
     return n
+
+
+def exibir_invalido():
+    print(f"\033[031m--> ERRO: Por favor, digite uma opção válida.\033[m\n")
+
