@@ -32,3 +32,6 @@ def trat_erro(msg):
 def exibir_invalido():
     print(f"\033[031m--> ERRO: Por favor, digite uma opção válida.\033[m\n")
 
+def cadastros(dados: dict):
+    cabecalho()
+
