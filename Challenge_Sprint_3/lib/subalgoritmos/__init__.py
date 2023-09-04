@@ -39,20 +39,23 @@ def cadastro_geral(tipo_cadastro, d: dict) -> dict:
 def cadastro_individual(dado: str):
     if dado.find('Valor') != -1:
         while True:
-            valor = tratar_erro_num("Valor: ")
+            valor = tratar_erro_num("Valor: R$ ")
             if valor > 2000 or valor == 2000:
                 break
             else:
                 print("\033[031m--> ERRO: O valor mínimo de uma bike para que seja assegurada é de R$2000.00!!\033[m\n")
     elif dado.find('Preço') != -1:
-        valor = tratar_erro_num("Valor: ")
+        valor = tratar_erro_num(f"{dado}: R$ ")
     else:
         valor = input(f"{dado}: ")
     return valor
 
 def exibir_dados(d: dict):
     for k, v in d.items():
-        print(f"{k}: {v}")
+        if k.find('Valor') != -1 or k.find('Preço') != -1:
+            print(f"{k}: R$ {v:.2f}")
+        else:
+            print(f"{k}: {v}")
 
 def confirmar_dados(tipo_cadastro, d: dict):
     alterar = "N"
@@ -62,8 +65,12 @@ def confirmar_dados(tipo_cadastro, d: dict):
         valores = []
         cabecalho(f'CADASTRO {tipo_cadastro}')
         for k, v in d.items():
-            print(f"{k}: {v}")
-            valores.append(f"{k}: {v}")
+            if k.find('Valor') != -1 or k.find('Preço') != -1:
+                print(f"{k}: R$ {v:.2f}")
+                valores.append(f"{k}: R$ {v:.2f}")
+            else:
+                print(f"{k}: {v}")
+                valores.append(f"{k}: {v}")
         print(linha(50))
         while True:
             alterar = input("Confirme seus dados ['S' para continuar || 'N' para alterar]: ")

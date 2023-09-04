@@ -37,13 +37,13 @@ while opc_menu != 5:
                     exibir_invalido()
             if possui_acessorio.upper() == 'S':
                 quant_acessorio = int(tratar_erro_num("Quantos?: "))
-                for i in range(1, quant_acessorio):
-                    dados[f'Acessório {i}'] = acessorio
-                    dados[f'Acessório {i}'] = cadastro_geral(f'ACESSÓRIO {i}', dados[f'Acessório {i}'])
-                    dados[f'Acessório {i}'] = confirmar_dados(f'ACESSÓRIO {i}', dados[f'Acessório {i}'])
-            cabecalho("Cadastro de dados da bike finalizado!!!")
+                for i in range(quant_acessorio):
+                    dados[f'Acessório {i + 1}'] = acessorio
+                    dados[f'Acessório {i + 1}'] = cadastro_geral(f'ACESSÓRIO {i + 1}', dados[f'Acessório {i + 1}'])
+                    dados[f'Acessório {i + 1}'] = confirmar_dados(f'ACESSÓRIO {i + 1}', dados[f'Acessório {i + 1}'])
             if possui_acessorio.upper() == 'N':
                 os.system("cls")
+            cabecalho("Cadastro de dados da bike finalizado!!!")
         case 5:
             cabecalho("Finalizando programa...")
             cabecalho("Desenvolvido por: CycleX")
