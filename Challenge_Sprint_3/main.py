@@ -8,12 +8,13 @@ dados = {'Dados Pessoais': {'Nome': "", 'Email': "", 'Telefone': "", 'CPF': ""},
 acessorio = {'Tipo do acessório': "", 'Marca do acessório': "",
             'Modelo do acessório': "", 'Preço do acessório': 0.0}
 quant_acessorio = 0
-opc_menu = 0
 opc_plano = 0
 plano_selecionado = ""
 alterar_plano = ""
 d_pessoais_cadastrados = False
 d_bike_cadastrados = False
+dados_restantes = []
+finalizar_programa = ""
 
 os.system('cls')
 print(f"""
@@ -24,7 +25,7 @@ print(f"""
 {linha(61)}
 """)
 sleep(3)
-while opc_menu != 4:
+while True:
     menu('MENU PRINCIPAL', funcionalidades)
     opc_menu = int(tratar_erro_num("Escolha uma opção: "))
     match opc_menu:
@@ -63,7 +64,8 @@ while opc_menu != 4:
                         dados[f'Acessório {i + 1}'] = confirmar_dados(f'ACESSÓRIO {i + 1}', dados[f'Acessório {i + 1}'])
         case 3:
             while True:
-                os.system('cls')
+                if opc_plano != 4:
+                    os.system('cls')
                 if plano_selecionado == "":
                     cabecalho("SELECIONE SEU PLANO")
                     print(f"""1 --> Pedal essencial: O plano para você 
@@ -96,21 +98,12 @@ nível.
                         case 4:
                             os.system('cls')
                             cabecalho("INFORMAÇÕES SOBRE PLANOS")
-                            print(f"""\033[1m--> Pedal Essencial:\033[0m plano gratuito que oferece 
-reparo e/ou troca de câmaras de ar, correntes, 
-coroas, manetes de freios, além de 
-lubrificação de correntes.
---------------------------------------------------
-\033[1m--> Pedal leve:\033[0m mesmas garantias do plano Pedal 
-Essencial, com um benefício a mais: transporte do 
-segurado e sua bike em caso de quebra ou acidente, 
-com limite de \033[1m50 km\033[0m. 
---------------------------------------------------
-\033[1m--> Pedal elite:\033[0m Tem tudo o que o plano Pedal 
-Essencial oferece, com um benefício a mais: 
-transporte do segurado e sua bike em caso de 
-quebra ou acidente, com limite de \033[1m150 km\033[0m.
-{linha(50)}""")
+                            exibir_descricao_plano('Pedal essencial')
+                            print('--------------------------------------------------')
+                            exibir_descricao_plano('Pedal leve')
+                            print('--------------------------------------------------')
+                            exibir_descricao_plano('Pedal elite')
+                            print(linha(50))
                             input("Pressione ENTER para voltar")
                         case 5:
                             cabecalho('VOLTANDO...')
@@ -120,6 +113,8 @@ quebra ou acidente, com limite de \033[1m150 km\033[0m.
                             exibir_invalido()
                 else:
                     cabecalho(f"{plano_selecionado} selecionado.")
+                    exibir_descricao_plano(plano_selecionado)
+                    print(linha(50))
                     while True:
                         alterar_plano = input("Deseja alterar seu plano? [S/N]: ")
                         if alterar_plano.upper() == 'S' or alterar_plano.upper() == 'N':
@@ -134,7 +129,44 @@ quebra ou acidente, com limite de \033[1m150 km\033[0m.
             if plano_selecionado != "":
                         cabecalho(f"{plano_selecionado} selecionado!!!")
         case 4:
-            cabecalho("Finalizando programa...")
-            cabecalho("Desenvolvido por: CycleX")
+            os.system('cls')
+            if d_pessoais_cadastrados:
+                exibir_dados('DADOS PESSOAIS', dados['Dados Pessoais'])
+                sleep(0.7)
+            else:
+                dados_restantes.append('Cadastrar dados pessoais')
+            if d_bike_cadastrados:
+                exibir_dados('DADOS BIKE', dados['Dados Bike'])
+                sleep(0.7)
+                if possui_acessorio.upper() == 'S':
+                    for i in range(quant_acessorio):
+                        exibir_dados(f'ACESSÓRIO {i + 1}', dados[f'Acessório {i + 1}'])
+                        sleep(0.7)
+            else:
+                dados_restantes.append('Cadastrar dados da bike')
+            if plano_selecionado != "":
+                cabecalho(f"{plano_selecionado} selecionado.")
+                exibir_descricao_plano(plano_selecionado)
+                print(linha(50))
+                sleep(0.7)
+            else:
+                dados_restantes.append('Selecionar plano')
+            if d_pessoais_cadastrados and d_bike_cadastrados and plano_selecionado != "":
+                cabecalho("Contratação do seguro concluída!!!")
+                break
+            else:
+                menu("Contratação incompleta. Ações em aberto:", dados_restantes)
+                while True:
+                    finalizar_programa = input("Deseja mesmo fechar o programa? [S/N]: ")
+                    if finalizar_programa.upper() == 'S' or finalizar_programa.upper() == 'N':
+                        break
+                    else:
+                        exibir_invalido()
+                if finalizar_programa.upper() == 'S':
+                    break
+                else:
+                    os.system('cls')
         case _:
             exibir_invalido()
+cabecalho("Finalizando programa...")
+cabecalho("Desenvolvido por: CycleX")

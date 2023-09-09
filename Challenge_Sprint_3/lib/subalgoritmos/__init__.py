@@ -8,7 +8,7 @@ def cabecalho(txt) -> None:
     print(txt.center(50))
     print(linha(50))
 
-def menu(titulo, execucoes):
+def menu(titulo, execucoes) -> None:
     cabecalho(titulo)
     c = 1
     for i in execucoes:
@@ -27,7 +27,7 @@ def tratar_erro_num(msg) -> float:
             continue
     return n
 
-def exibir_invalido():
+def exibir_invalido() -> None:
     print("\033[031m--> ERRO: Por favor, digite uma opção válida.\033[m\n")
 
 def cadastro_geral(tipo_cadastro, d: dict) -> dict:
@@ -36,7 +36,7 @@ def cadastro_geral(tipo_cadastro, d: dict) -> dict:
         d[k] = cadastro_individual(k)
     return d
 
-def cadastro_individual(dado: str):
+def cadastro_individual(dado: str) -> str or float:
     if dado.find('Valor') != -1:
         while True:
             valor = tratar_erro_num("Valor: R$ ")
@@ -50,14 +50,7 @@ def cadastro_individual(dado: str):
         valor = input(f"{dado}: ")
     return valor
 
-def exibir_dados(d: dict):
-    for k, v in d.items():
-        if k.find('Valor') != -1 or k.find('Preço') != -1:
-            print(f"{k}: R$ {v:.2f}")
-        else:
-            print(f"{k}: {v}")
-
-def confirmar_dados(tipo_cadastro, d: dict):
+def confirmar_dados(tipo_cadastro, d: dict) -> dict:
     alterar = "N"
     while alterar.upper() == 'N':
         os.system('cls')
@@ -93,4 +86,35 @@ def confirmar_dados(tipo_cadastro, d: dict):
         if alterar.upper() == "S":
             os.system("cls")
     return d
-                
+
+def exibir_dados(tipo_cadastro, d: dict) -> None:
+    cabecalho(tipo_cadastro)
+    for k, v in d.items():
+        if k.find('Valor') != -1 or k.find('Preço') != -1:
+            print(f"{k}: R$ {v:.2f}")
+        else:
+            print(f"{k}: {v}")
+    print(linha(50))
+
+def exibir_descricao_plano(plano) -> None:
+    if plano == 'Pedal essencial':
+        print("""\033[1m--> Pedal Essencial:\033[0m plano gratuito que oferece 
+reparo e/ou troca de câmaras de ar, correntes, 
+coroas, manetes de freios, além de 
+lubrificação de correntes.""")
+    elif plano == "Pedal leve":
+        print("""\033[1m--> Pedal leve:\033[0m mesmas garantias do plano Pedal 
+Essencial(reparo e/ou troca de câmaras de ar, 
+correntes, coroas, manetes de freios, além de 
+lubrificação de correntes), com um benefício 
+a mais: transporte do segurado e sua bike em 
+caso de quebra ou acidente, com limite de 
+\033[1m50 km\033[0m.""")
+    else:
+        print("""\033[1m--> Pedal elite:\033[0m mesmas garantias do plano Pedal 
+Essencial(reparo e/ou troca de câmaras de ar, 
+correntes, coroas, manetes de freios, além de 
+lubrificação de correntes), com um benefício 
+a mais: transporte do segurado e sua bike em 
+caso de quebra ou acidente, com limite de 
+\033[1m150 km\033[0m.""")
