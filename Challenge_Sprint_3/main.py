@@ -26,21 +26,31 @@ print(f"""
 """)
 sleep(3)
 while True:
+
+    # Menu principal de interação
     menu('MENU PRINCIPAL', funcionalidades)
     opc_menu = int(tratar_erro_num("Escolha uma opção: "))
     match opc_menu:
+
+        # Cadastro de dados pessoais
         case 1:
             if not d_pessoais_cadastrados:
                 dados['Dados Pessoais'] = cadastro_geral('DADOS PESSOAIS', dados['Dados Pessoais'])
                 dados['Dados Pessoais'] = confirmar_dados('DADOS PESSOAIS', dados['Dados Pessoais'])
                 d_pessoais_cadastrados = True
                 cabecalho("Cadastro de dados pessoais finalizado!!!")
+            
+            # Caso o cliente já tenha digitado seus dados, ele pode alterá-los ao entrar nesta área novamente
             else:
                 dados['Dados Pessoais'] = confirmar_dados('DADOS PESSOAIS', dados['Dados Pessoais'])
+
+        # Cadastro de dados da bike
         case 2:
             if not d_bike_cadastrados:
                 dados['Dados Bike'] = cadastro_geral('DADOS BIKE', dados['Dados Bike'])
                 dados['Dados Bike'] = confirmar_dados('DADOS BIKE', dados['Dados Bike'])
+
+                # Cadastro dos possíveis acessórios da bike
                 while True:
                     possui_acessorio = input("Sua bike possui algum acessório? [S/N]: ")
                     if possui_acessorio.upper() == 'S' or possui_acessorio.upper() == 'N':
@@ -57,11 +67,15 @@ while True:
                     os.system("cls")
                 d_bike_cadastrados = True    
                 cabecalho("Cadastro de dados da bike finalizado!!!")
+            
+            # Permite ao cliente alterar estes dados ao entrar novamente
             else:
                 dados['Dados Bike'] = confirmar_dados('DADOS BIKE', dados['Dados Bike'])
                 if quant_acessorio != 0:
                     for i in range(quant_acessorio):
                         dados[f'Acessório {i + 1}'] = confirmar_dados(f'ACESSÓRIO {i + 1}', dados[f'Acessório {i + 1}'])
+        
+        # Selecionar plano da bike
         case 3:
             while True:
                 if opc_plano != 4:
@@ -95,6 +109,8 @@ nível.
                         case 3:
                             plano_selecionado = 'Pedal elite'
                             break
+
+                        # Exibe informações adicionais sobre os planos
                         case 4:
                             os.system('cls')
                             cabecalho("INFORMAÇÕES SOBRE PLANOS")
@@ -105,12 +121,15 @@ nível.
                             exibir_descricao_plano('Pedal elite')
                             print(linha(50))
                             input("Pressione ENTER para voltar")
+
                         case 5:
                             cabecalho('VOLTANDO...')
                             sleep(1.5)
                             break
                         case _:
                             exibir_invalido()
+                
+                # Permite ao usuário redefinir seu plano
                 else:
                     cabecalho(f"{plano_selecionado} selecionado.")
                     exibir_descricao_plano(plano_selecionado)
@@ -125,10 +144,15 @@ nível.
                         plano_selecionado = ""
                     else:
                         break
+
             os.system('cls')
             if plano_selecionado != "":
                         cabecalho(f"{plano_selecionado} selecionado!!!")
+        
+        # Finaliza o programa
         case 4:
+
+            # Exibe os dados que foram cadastrados
             os.system('cls')
             if d_pessoais_cadastrados:
                 exibir_dados('DADOS PESSOAIS', dados['Dados Pessoais'])
@@ -151,9 +175,14 @@ nível.
                 sleep(0.7)
             else:
                 dados_restantes.append('Selecionar plano')
+            
+            # Caso o usuário tenha realizado todos os processos, a contratação será concluída
             if d_pessoais_cadastrados and d_bike_cadastrados and plano_selecionado != "":
                 cabecalho("Contratação do seguro concluída!!!")
                 break
+
+            # Caso contrário, o usuário será informado dos dados faltantes
+            # E poderá voltar ao programa e, se desejar, finalizar a contratação
             else:
                 menu("Contratação incompleta. Ações em aberto:", dados_restantes)
                 while True:

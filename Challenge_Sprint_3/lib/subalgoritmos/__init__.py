@@ -16,6 +16,7 @@ def menu(titulo, execucoes) -> None:
         c += 1
     print(linha(50))
 
+# Tratamento de erro para variáveis numéricas
 def tratar_erro_num(msg) -> float:
     n = 0
     while True:
@@ -50,6 +51,7 @@ def cadastro_individual(dado: str) -> str or float:
         valor = input(f"{dado}: ")
     return valor
 
+# Permite confirmar/alterar dados já digitados pelo usuário
 def confirmar_dados(tipo_cadastro, d: dict) -> dict:
     alterar = "N"
     while alterar.upper() == 'N':
